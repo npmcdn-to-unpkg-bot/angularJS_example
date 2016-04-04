@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="utf-8">
+<title>eventListener</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+<!--  <script src="libs/angular/angular.js"></script> -->
+
+<style>
+	.ng-scope {border: 1px solid red; padding : 5px;}
+	.msg-list-area {margin : 10px; height : 400px; border : 1px solid black;}
+</style>
+
+<script type="text/javascript" charset="utf-8">
+
+	/*main controller를 통해서 전달하는 메시지는 broadcast하여 자식 scope에도 전달
+	   그럼 chatMsgListCtrl controller에서는 mainCtrl에서 발생하는 boradCast(chat:noticeMsg)를 듣고 있다가
+	   공지로 등록을 한다. */
+	function mainCtrl($scope) {
+		$scope.broadcast = function (noticeMsg) {
+			$scope.$broadcast("chat:noticeMsg", noticeMsg);
+			$scope.$noticeMsg = '';
+		}
+	};
+	
+	/*chatMsgListCtrl와 chatMsgInputCtrl 의 scope는 mainCtrl 함수에
+	연결된 DOM의 자식이므로 두 컨트롤러 함수의 $scope는 mainCtrl 컨트롤러 함수 $scope의 자식이 됨 */
+	
+	/*전달된 message들을 msg List에 추가시키는 역할을 함 */
+	
+	/* chatMsgInputCtrl controller가 발생하는 event ($emit으로 rootScope까지 발생함)를 $rootScope.$on 메소드를 이용하여
+	newMsg event를 감지하고 있다. 
+	
+	순서는 $emit -> $on -> newMsg = ""; / $broadcast -> $on -> noticeMsg */
+	function chatMsgListCtrl($scope, $rootScope) {
+		$scope.msgList = [];
+		$rootScope.$on("chat:newMsg",function(e, newMsg) {
+			$scope.msgList.push(newMsg);
+		});
+		
+		$scope.$on("chat:noticeMsg", function(e, noticeMsg) {
+			$scope.msgList.push("[공지] "+noticeMsg);
+		})
+	};
+	
+	/* chatMsgListCtrl controller와 형제 관계임 - 따라서 chatMsgListCtrl의 $scope가 이 controller의
+		이벤트를 감지할 수 있는 방법이 없음.
+		따라서 chatMsgInputCtrl에서는 $emit을 이용해서 $rootController까지 이벤트(chat:newMsg)를 전파하고 있음
+	*/
+	function chatMsgInputCtrl($scope) {
+		$scope.submit = function(newMsg) {
+			$scope.$emit("chat:newMsg", newMsg);
+			$scope.newMsg = "";
+		};
+	};
+</script>
+</head>
+<body ng-controller="mainCtrl">
+
+	<!-- main controller를 통해서 전달하는 Msg는 공지로 등록을 함 -->
+	<input type="text" ng-model="noticeMsg">
+	<input type="button" value="공지 전송" ng-click="broadcast(noticeMsg)">
+	<div class="msg-list-area" ng-controller="chatMsgListCtrl">
+		<ul>
+			<li ng-repeat="msg in msgList track by $index"> {{msg}} </li>
+		</ul>
+	</div>
+	<div ng-controller="chatMsgInputCtrl">
+		<input type="text" ng-model="newMsg">
+		<input type="button" value="전송" ng-click ="submit(newMsg)">		
+	</div>
+	
+</body>
+</html>

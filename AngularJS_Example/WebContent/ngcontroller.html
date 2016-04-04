@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="EUC-KR">
+<title>Using ngcontroller</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+<script>
+function customerCtrl($scope) {
+	var customerList = [{name : '영희', age:10}, {name : '순희', age:30}];
+	var youngCustomerList = [];
+	
+	angular.forEach(customerList, function(value, key) {
+		console.log(key);
+		if(value.age < 18) {
+			youngCustomerList.push(value);
+		}
+	});
+	
+	$scope.customerList = customerList;
+	$scope.youngCustomerList = youngCustomerList;
+}
+</script>
+</head>
+<body ng-controller="customerCtrl">
+	<div>
+		고객 목록
+		<ul>
+			<li ng-repeat="customer in customerList">
+				[{{$index+1}}] 고객 이름 : {{customer.name}}, 고객 나이 : {{customer.age}}
+			</li>
+		</ul>
+	</div>
+	
+	<div>
+		18세 미만 고객
+		<ul>
+			<li ng-repeat="youngCustomer in youngCustomerList">
+				[{{$index+1}}] 고객 이름 : {{youngCustomer.name}}, 고객 나이 : {{youngCustomer.age}}
+			</li>
+		</ul>
+	</div>
+</body>
+</html>
