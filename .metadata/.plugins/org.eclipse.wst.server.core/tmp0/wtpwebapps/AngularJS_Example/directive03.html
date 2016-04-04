@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="directive03">
+<head>
+<meta charset="utf-8">
+<title>directive03 Test</title>
+<script src="libs/angular/angular.js"></script>
+<script type="text/javascript">
+	angular.module('directive03', [])
+	.directive('hello', function() {
+		return {
+			//template : "<h1>hello <span>name</span></h1>",
+			templateUrl : "template/helloTpl.html",
+			restrict : "AE",
+/* 			link : function link (scope, iEl, iAt, ctrl) {
+				//iEl.find("span").text(iAt.name);
+				//template 은 외부문서로 별도 구분 , <span> 태그를 찾던 것을 표현식으로 변경
+				scope.name = iAt.name;
+			} */
+			controller : function ($scope, $element, $attrs, $transclude) {
+				$scope.name = $attrs.name;
+			}
+		}
+	});
+</script>
+</head>
+<body>
+	<div hello name="angularJS"></div>
+</body>
+</html>

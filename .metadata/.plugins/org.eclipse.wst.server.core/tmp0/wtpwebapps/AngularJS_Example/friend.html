@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="utf-8">
+<title>friend example</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+
+</head>
+<body>
+	<div ng-init="customerList = [{name : '영희', age:25}, {name : '철수', age:30}]">
+		<ul>
+			<li ng-repeat="customer in customerList">
+				[{{$index+1}}] 고객 이름 : {{customer.name}} , 고객 나이 : {{customer.age}}
+			</li>
+		</ul>
+	</div>
+	
+	<div ng-init="myFriendList = [{name : '진구', age:18}, {name : '퉁퉁이', age:18}]">
+		<ul>
+			<li ng-repeat="(attr, value) in myFriendList">
+				<p> [{{$index+1}}] : {{attr}} 는 {{value}} </p>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>

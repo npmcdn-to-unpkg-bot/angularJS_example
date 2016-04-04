@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="utf-8">
+<title>class Test</title>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script> -->
+<script src="libs/angular/angular.js"></script>
+<style type="text/css">
+	.apple { background-color: red;	}
+	.lemon { background-color: yellow; }
+	.even { background-color: pink;	}
+</style>
+</head>
+<body>
+	<div ng-init="fruitList = ['apple', 'banana', 'tomato', 'lemon', 'grape']">
+	
+		<!-- ng-class 를 사용하면 과일 배열 이름으로 class를 추가하여 CSS를 적용한다. -->
+		<ul>
+			<li ng-repeat = "fruit in fruitList" ng-class="'{{fruit}}'">{{fruit}}</li>
+		</ul>
+		
+		<!-- AngularJS가 {{$index%2==0}} 의 결과값을 읽어 'even' : true 이면 even이라는 클래스를 추가하여 CSS 를 적용한다. -->
+		<ul>
+			<li ng-repeat = "fruit in fruitList" ng-class="{'even' : {{$index%2==0}}}">{{fruit}}</li>
+		</ul>
+	</div>
+</body>
+</html>

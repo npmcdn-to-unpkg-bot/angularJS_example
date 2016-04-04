@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="utf-8">
+<title>style test</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+<!-- <script src="libs/angular/angular.js"></script> -->
+<script type="text/javascript">
+	function mainCtrl($scope) {
+		$scope.bgStyle = {
+			backgroundColor : 'red'
+		};
+		$scope.changeColor = function(color) {
+			$scope.bgStyle.backgroundColor = color;
+		};
+	}
+</script>
+</head>
+<body ng-controller="mainCtrl">
+	<div>
+		<div ng-style="bgStyle">{{bgStyle.backgroundColor}}</div>
+		<button ng-click ="changeColor('yellow')">색 변경</button>
+	</div>
+
+</body>
+</html>

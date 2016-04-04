@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="EUC-KR">
+<title>select</title>
+<script src="libs/angular/angular.js"></script>
+</head>
+<body>
+<div ng-init="countryList = [{name : '한국', code : 'kr', continent : '아시아'}, 
+							 {name : '일본', code : 'jp', continent : '아시아'},
+							 {name : '미국', code : 'en', continent : '북미'}]">
+	<form name="myRouteForm">
+		<div>
+			출발 국가 :
+			<select ng-model="depCountry" ng-options="country.name for country in countryList" ng-required="true">
+				<option value="">선택해주세요</option>			
+			</select>
+		</div>
+		
+		<div>
+			경유 국가 :
+			<!-- country.name as country.name 이므로 경유 국가에서 viaCountry.name을 사용하지 않아도 됨 - country.name 이 데이터 바인딩 되니까-->
+			<select ng-model = "viaCountry" ng-options="country.name as country.name for country in countryList">
+				<option value="">선택해주세요</option>
+			</select>
+		</div>
+		
+		<div>
+			도착 국가(대륙 그룹별) :
+			<!-- country continent를 그룹으로 country name을 노출시킨다. -->
+			<select ng-model="arrCountry" ng-options="country.name group by country.continent for country in countryList"
+					ng-required = "true">
+				<option value="">선택해주세요</option>		
+			</select>
+		</div>	
+	</form>
+	
+	<!-- 선택한 결과값이 나오는 부분 -->
+	<div>
+		<p> 출발 국가 : {{depCountry.name}} </p>
+		<p> 경유 국가 : {{viaCountry}} </p>
+		<p> 도착 국가 : {{arrCountry.name}} </p>	
+	</div>
+	
+	<div>
+	<div ng-show="myRouteForm.$invalid">
+		도착 국가는 반드시 선택해주세요.
+	</div>
+	</div>
+</div>
+</body>
+</html>

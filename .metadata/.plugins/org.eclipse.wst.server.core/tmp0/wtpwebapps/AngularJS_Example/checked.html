@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="utf-8">
+<title>이용동의 약관</title>
+<script src="libs/angular/angular.js"></script>
+</head>
+<body>
+	약관에 동의 : <input type="checkbox" ng-model = "checked" ng-init="checked=false" />
+	<br/>
+	동의하면 다음으로 진행됩니다.
+	<button ng-if="checked"> 다음 </button>
+	
+	<div>
+		<span ng-show="checked">
+			다음으로 진행합니다. <button> 계속 </button>
+		</span>
+	</div>
+	
+	<div>
+		<span ng-hide="checked">
+			다음으로 진행할 수 없습니다. 약관에 동의해야 다음으로 갈 수 있습니다.
+		</span>
+	
+	</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app="directive05">
+<head>
+<meta charset="utf-8">
+<title>directive05 test </title>
+<script src="libs/angular/angular.js"></script>
+<script type="text/javascript">
+	angular.module('directive05', [])
+	.controller('demoCtrl', ['$scope', function($scope) {
+		$scope.helloList =[{name:'google'},{name:'naver'},{name:'angular'}];
+		$scope.sendMessage = function(toSb) {
+			console.log(toSb+"에게 메시지를 보낸다.");
+		};
+	}])
+	.directive('hello', function() {
+		return {
+			templateUrl : "template/helloTpl2.html",
+			restrict : "AE",
+			//@to - 지시자 내부에 고유 scope를 갖고, 지시자 내부 scope에서 name 속성에 값을 연결한다.
+			scope : {name : "@to", send : "&" }
+		}
+	});
+</script>
+</head>
+<body ng-controller="demoCtrl">
+	<!--부모인 demoCtrl의 scope에서 설정된 helloList의 값을 hello 지시자를 통해서 지시자 내부의 scope로 전달할 수 있다. (@를 사용하여 지시자 내부의 scope을 할당)
+	또한 &를 사용하여 부모 scope에서 실행될 수 있는 표현식 reference 가져오는 것이 가능하다. 단 여기서 부모 scope은 demoCtrl의 scope이 아니라
+	ng-repeat으로 만들어지는 scope임 -->
+	<div ng-repeat="hellosb in helloList" hello to="{{hellosb.name}}" send="sendMessage(hellosb.name)"></div>
+</body>
+</html>

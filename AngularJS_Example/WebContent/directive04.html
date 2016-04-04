@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="directive04">
+<head>
+<meta charset="utf-8">
+<title>directive04 test </title>
+<script src="libs/angular/angular.js"></script>
+<script type="text/javascript">
+	angular.module('directive04', [])
+	.controller('demoCtrl', ['$scope', function($scope) {
+		$scope.name = "ctrl에서 사용된 모델";
+	}])
+	.directive('hello', function() {
+		return {
+			templateUrl : "template/helloTpl.html",
+			restrict : "AE",
+			scope : {name : "@to" }
+		}
+	});
+</script>
+</head>
+<body ng-controller="demoCtrl">
+	<div hello to = "google"></div>
+	<div hello to = "naver"></div>
+	<div hello></div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+<meta charset="utf-8">
+<title>event test</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+<style type="text/css">
+	.box {
+		width : 100px;
+		height : 60px;
+		margin : 10px;
+		background-color: black;
+		color : white;
+		text-align : center;
+		padding-top : 40px;
+	
+	}
+</style>
+<script type="text/javascript">
+	function mainCtrl($scope) {
+		$scope.message = '';
+		$scope.eventCount = 0;
+		$scope.handleEvt = function(message) {
+			$scope.message = message;
+			$scope.eventCount ++;
+		}
+	}
+</script>
+</head>
+<body ng-controller="mainCtrl">
+	<div>
+		<!-- 개체가 클릭 됨 -->
+		<div class="box" ng-click="handleEvt('Click')">click</div>
+		<!-- mouse 버튼이 눌림 -->
+		<div class="box" ng-mousedown="handleEvt('Mousedown')">Mousedown</div>
+		<!-- mouse enter : mouse pointer가 개체 안에 들어왔을 때 -->
+		<div class="box" ng-mouseenter="handleEvt('Mouseenter')">Mouseenter</div>
+		<!-- 마우스 이동할 때 -->
+		<div class="box" ng-mousemove="handleEvt('mousemove')">mousemove</div>
+		
+		<!-- input text에 입력된 값이 변경될 때 -->
+		change : <input type="text" ng-model="inputText" ng-change="handleEvt('입력 값 change')">
+		<!-- keyboard key가 입력될 때 -->
+		keydown : <input type="text" ng-model="inputText2" ng-keydown="handleEvt($event.keyCode+'Key Code')">
+	</div>
+	
+	<div>
+		<p>{{message}} {{eventCount}}</p>
+	</div>
+</body>
+</html>
