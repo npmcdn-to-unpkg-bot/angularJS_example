@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="utf-8">
+<title>Module Factory Test</title>
+<script src="libs/angular/angular.js"></script>
+<script type="text/javascript">
+	angular.module('myApp', [])
+	// factory 함수의 첫 번째 인자로 서비스명, 두 번째 이자로 서비스 주입시 반환할 객체를 설정하는 factory 함수 제공
+	// 모듈 API의 factory method는 $provide.factory method 와 같음
+	.factory('hello', [function() {
+		var helloText = "님 안녕하세요.";
+		
+		// 반환할 객체 설정
+		return {
+			say : function (name) {
+				return name + helloText;
+			}
+		};
+	}])
+	.controller('mainCtrl', function ($scope, hello) {
+		$scope.hello = hello.say("철수");
+	});
+</script>
+</head>
+<body>
+	<div ng-controller = "mainCtrl">
+		<p>{{hello}}</p>
+	</div>
+</body>
+</html>

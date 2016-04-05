@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html ng-app="providerApp">
+<head>
+<meta charset="utf-8">
+<title>Provider_Value</title>
+<script src="libs/angular/angular.js"></script>
+<script  type="text/javascript">
+	angular.module('providerApp', [])
+	.value('appName', 'demoApp')
+	.controller('mainCtrl', function($scope, appName){
+		$scope.appName = appName;
+	})
+</script>
+</head>
+<body ng-controller="mainCtrl">
+	<p> Application 이름 : {{appName}} </p>
+</body>
+</html>

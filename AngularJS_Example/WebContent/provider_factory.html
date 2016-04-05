@@ -1,0 +1,62 @@
+r<!DOCTYPE html>
+<html ng-app="provider">
+<head>
+<meta charset="utf-8">
+<title>Provider _ factory example</title>
+<script src="libs/angular/angular.js"></script>
+<script type="text/javascript">
+	angular.module('provider', [])
+	.factory('appName', [function() {
+		return 'provider_factory_example';
+	}])
+	
+	//userResource 라는 객체를 통해 addUser, updateUser... 가 가능함
+	.factory('userResource', function(){
+		var userList = [];
+		
+		return {
+			addUser : function(newUser) {
+				userList.push(newUser);
+			},
+			updateUser : function(idx, updatedUser) {
+				userList[idx] = updatedUser;
+			},
+			deleteUser : function(idx) {
+				userList[idx] = undefined;
+			},
+			selectUsers : function() {
+				return userList;
+			}
+		}
+	})
+	// mainCtrl에서는 factory에서 정의한 객체 userResource를 인자로 받고 그 인자를 사용함
+	.controller('mainCtrl', function($scope, appName, userResource){
+		$scope.appName = appName;
+		
+		$scope.users = userResource.selectUsers();
+		
+		// mainCtrl의 addNewUser 함수는 내부에서 인자로 전달받은 userResource를 통해서 user를 추가한다.
+		$scope.addNewUser = function(newUser) {
+			userResource.addUser({
+				name : newUser.name,
+				email : newUser.email
+			});
+		};
+	});
+</script>
+</head>
+<body ng-controller="mainCtrl">
+	<p> App 이름 : {{appName}} </p>
+	<div>
+		<!-- 사용자가 입력한 이름 값, 이메일  값을 newUser로 받은 후에 mainCtrl에 있는 addNewUser를 호출한다. -->
+		이름 : <input type='text' ng-model="newUser.name"> , 이메일 : <input type='text' ng-model="newUser.email">
+		<button ng-click="addNewUser(newUser)">Add New User</button>
+	</div>
+	
+	<ul>
+		<li ng-repeat="user in users">
+		이름 : {{user.name}}, 이메일 : {{user.email}}
+		</li>
+	</ul>
+</body>
+</html>

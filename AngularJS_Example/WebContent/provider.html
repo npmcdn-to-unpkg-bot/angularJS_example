@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app="provider">
+<head>
+<meta charset="utf-8">
+<title>Provider Logging Example</title>
+<script src="libs/angular/angular.js"></script>
+<script type = "text/javascript">
+	angular.module('provider', [])
+	.provider('Logger', [function() {
+		function Logger(msg) {
+			if(checkNativeLogger) console.log(msg);
+		}
+		
+		Logger.debug = function(msg) {
+			if (checkNativeLogger) console.debug(msg)
+		};
+		Logger.info = function(msg) {
+			if (checkNativeLogger) console.info(msg)
+		};
+		
+		function checkNativeLogger() {
+			if(console) return true;
+			return false;
+		}
+				
+		// provider에는 this.$get 을 사용하는 코드가 필요하다.
+		this.$get = [function() {
+			return Logger;
+		}];
+	}])
+	.controller('mainCtrl', function($scope, Logger) {
+		Logger("console.log로 출력하는 로그메시지");
+		Logger.debug("console.debug 출력하는 로그메시지");
+		Logger.info("console.info 출력하는 로그메시지")
+	});
+</script>
+</head>
+<body ng-controller="mainCtrl">
+
+</body>
+</html>

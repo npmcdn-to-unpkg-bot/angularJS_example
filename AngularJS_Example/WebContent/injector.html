@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="injector">
+<head>
+<meta charset="utf-8">
+<title>injector example</title>
+<script src="libs/angular/angular.js"></script>
+<script type = "text/javascript">
+	angular.module('injector',[])
+	.factory('Hello', [function(){
+		return {
+			helloTo : function(name) {
+				console.log('hello ' + name);
+			}
+		};
+	}]);
+	
+	var injector = angular.injector(['ng','injector']),
+		  //injector에 Hello service가 있는지 has method로 확인
+		  hasHello = injector.has('Hello'),
+		  HelloSvc = null;
+
+	if(hasHello) {
+		// injector에 있는 Hello Service 객체를 가져옴
+		HelloSvc = injector.get('Hello');
+		// service 객체의 helloTo 호출
+		HelloSvc.helloTo('철수');
+	};
+</script>
+</head>
+<body>
+</body>
+</html>

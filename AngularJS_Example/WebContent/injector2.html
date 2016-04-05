@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html ng-app="injector">
+<head>
+<meta charset="utf-8">
+<title>injector _inovke / instantiate</title>
+<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="libs/angular/angular.js"></script>
+<script type="text/javascript">
+	angular.module('injector', [])
+	.factory('Hello', [function() {
+		return {
+			helloTo : function(name) {
+				return 'Hello ' + name;
+			}
+		}
+	}])
+	
+	$(function() {
+		var injector = angular.injector(['ng', 'injector']),
+			  invokedReturnValue = null,
+			  helloAppenderInstance1 = null,
+			  helloAppenderInstance2 = null;
+		
+		invokedReturnValue = injector.invoke(function(Hello) {
+			var hello = Hello.helloTo('철수');
+			$('body').append(hello);
+			return hello;
+		});
+		
+		function HelloAppender(Hello, $compile, $rootScope) {
+			var helloEl = $('<p>{{hello}}</p>');
+			var scope = $rootScope.$new();
+			
+			scope.hello = "";
+			
+			$('body').append($compile(helloEl)(scope));
+			
+			// 주입받은 Hello 서비스를 통해 scope에 있는 hello에 값을 넣어줌
+			this.setName = function (name) {
+				scope.hello = Hello.helloTo(name);
+				scope.$digest(); 
+			};
+		}
+		
+		// HelloAppender 객체를 인스턴스화 하여 body에 추가함
+		helloAppenderInstance1 = injector.instantiate(HelloAppender);
+		helloAppenderInstance2 = injector.instantiate(HelloAppender);
+		
+		// 추가된 {{hello}} 에 scope를 통해 이름을 세팅시킴
+		helloAppenderInstance1.setName("영희");
+		helloAppenderInstance2.setName("가영");
+		
+		console.log("invokedReturnValue : ", invokedReturnValue);
+		console.log("helloAppenderInstance1 ", helloAppenderInstance1);
+		console.log("helloAppenderInstance2 ", helloAppenderInstance2);
+			  
+	})
+</script>
+</head>
+<body>
+
+</body>
+</html>

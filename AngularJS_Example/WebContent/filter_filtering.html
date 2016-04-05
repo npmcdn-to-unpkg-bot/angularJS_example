@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html ng-app="filter">
+<head>
+<meta charset="utf-8">
+<title>filter formatting</title>
+<script src="libs/angular/angular.js"></script>
+<script type="text/javascript">
+	angular.module('filter', [])
+	.controller('mainCtrl', ['$scope', function($scope){
+		$scope.userList = [
+			                   {userId : 'jay', userName : '제이', userEmail : 'jay@jay.com'},
+			                   {userId : 'soon', userName : '순희', userEmail : 'soon@soon.com'},
+			                   {userId : 'cindy', userName : '가영', userEmail : 'cindy@cindy.com'},
+			                   {userId : 'mino', userName : '민호', userEmail : 'mino@mino.com'},
+			                   {userId : 'teapong', userName : '태홍', userEmail : 'teapong@teapong.com'}
+		                   ];
+	}]);
+</script>
+</head>
+<body>
+	<div ng-controller = "mainCtrl">
+		<h2> search Filter 사용 </h2>
+		<div>사용자 이름 : <input type="text" ng-model ="search.userName"></div>
+		<ul>
+		<!--조건에 부합하는 부분집합을 반환하는 filter 를 사용 , ng-model에서  userName으로 검색 하겠다고 해줌-->
+			<li ng-repeat="user in userList | filter : search">
+				<p> {{user.userName}} | {{user.userId}} || {{user.userEmail}} </p>
+			</li>
+		</ul>
+		
+		<!-- input 에서 받은 숫자만큼 limitTo 필터로 제한함 -->
+		<h2>limitTo 필터 사용</h2>
+		<div>제한 갯수 : <input type="number" ng-model="limitNum"></div>
+		<ul>
+			<li ng-repeat="user in userList | limitTo : limitNum">
+				<p> {{user.userName}} | {{user.userId}} || {{user.userEmail}} </p>
+			</li>
+		</ul>
+		
+		<!-- order model의 value로 orderby를 함, reverse의 값이 true면 역순으로 정렬함 -->
+		<h2>orderBy 필터 사용</h2>
+		<div>
+			정렬 순서 :
+			아이디 <input type="radio" ng-model="order" value="userId">
+			이름 <input type="radio" ng-model="order" value="userName">
+			<br>
+			역순 여부 <input type="checkbox" ng-model="reverse">
+		</div>
+		<ul>
+			<li ng-repeat="user in userList | orderBy:order:reverse">
+				<p> {{user.userName}} | {{user.userId}} || {{user.userEmail}} </p>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>
